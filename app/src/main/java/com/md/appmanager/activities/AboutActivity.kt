@@ -44,6 +44,9 @@ class AboutActivity : AppCompatActivity() {
                 window.navigationBarColor = appPreferences!!.primaryColorPref
             }
         }
+
+        var appVersionText = findViewById(R.id.text_version) as TextView
+        appVersionText.setText(packageManager.getPackageInfo(packageName,0).versionCode)
     }
 
     private fun setScreenElements() {

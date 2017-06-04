@@ -30,6 +30,60 @@
     </item>
     <item
         is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/85082aa5d47118f8b617fe3c4bf5298459728289/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="02de9ef3b1d4af578c51d6596fce54597bc033f9">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_5f9de84f1b975142adeb84415da6fadc4265090c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/a48385a2c1c84616bf11173cc56c23d6012117b4/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="f40cf334cdc8b098b74312e21c7741c6eefbeb0e">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_f32fd40b2081b1301a6dbea1a476933fc1c86793.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-sdk15/0.9.1/cd75e456277ed865a5ab936e011e8df6cc935c0d/anko-sdk15-0.9.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="cd75e456277ed865a5ab936e011e8df6cc935c0d">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-sdk15-0.9.1_c8e0c7cbf0388b27cf0195458c333308b4c39da7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Applications/Android Studio 3.0 Preview.app/Contents/gradle/m2repository/org/jetbrains/kotlin/kotlin-stdlib-jre7/1.1.2-4/kotlin-stdlib-jre7-1.1.2-4.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="6941e5b9d50a5690862458c7a5a83af2b1cd1d1f">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/kotlin-stdlib-jre7-1.1.2-4_5e94a543651629143cb75acf450b64f095dfc4b0.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/b8587bf28789e835741b33b57d016ad0e351b9a8/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="2cdf8688bcd498cc359f18b056ba1cda54ee0e8e">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_b5432494de77dbaf03459a2d689fbad3a870218a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/26ec3a6d1cde6c0168b01bb82ce8888e151d0770/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="94afda1ba995209d097bf14edf601330e0597f1d">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_284aab9aa2b444d6f15629d137c5e21aab8cffc3.jar" />
+    </item>
+    <item
+        is-multidex="false"
         jar="/Users/chenwei/.android/build-cache/5f63d9c799ecb716d375eedae7d446d9d48bbfe8/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -45,6 +99,24 @@
         revision="25.0.3"
         sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
         <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/commons-io-2.4_866d93dc3c6d3946fcb0e86c0b2b35da564e40a5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/b191f16f618d451addd0570b94992b5fa7d694b3/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="26a7f4e461900a5f5d84405e358aa5ac09534fba">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_ba8be2e7515bf1b87b4d71e59406c23f4454133f.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-common/0.9.1/94848205587db2dcb3ad37420531a106b2f52385/anko-common-0.9.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="94848205587db2dcb3ad37420531a106b2f52385">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-common-0.9.1_af05d6dd76d6f34dff16098f1f53b08b79309699.jar" />
     </item>
     <item
         is-multidex="false"
@@ -72,6 +144,24 @@
         revision="25.0.3"
         sha1="69115b0178be8d56c59a2f367c84d9763c94f46c">
         <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-support-v4-0.9.1_96fbbc9db5dff64db6ab5f8d66a1ead0e39f9243.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-appcompat-v7/0.9.1/a77ea5398546737ffc597e5c1c0b21c63beaf60/anko-appcompat-v7-0.9.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="0a77ea5398546737ffc597e5c1c0b21c63beaf60">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-appcompat-v7-0.9.1_a9afdea5b525cefe1ee55fced1b6789fdf433fa7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.android/build-cache/a4b6ff435f69caf777bb6f01eac60271e9fa645b/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="aedc325cd2f62a454c66798006eb79a5b3a1e766">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_30d326c9f7929e23c9d15ef80b573b05aadcb64b.jar" />
     </item>
     <item
         is-multidex="false"
@@ -111,96 +201,6 @@
     </item>
     <item
         is-multidex="false"
-        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/auto-parcel/0.3/b68911fc1bd0419e5a19c2d3cba9d772f8352d67/auto-parcel-0.3.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="b68911fc1bd0419e5a19c2d3cba9d772f8352d67">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/auto-parcel-0.3_7761b47cde929ca31ab61fe9187a96bf26787ade.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.android/build-cache/4b4e500376fc30c7fde0573eacba99091cf6e446/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="a0eb1ce5939eefb26507ea956a3774e2a36dcc0c">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_d21beb73ca2f7a4716ba89a34a3a254fb7462a36.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.android/build-cache/a48385a2c1c84616bf11173cc56c23d6012117b4/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="f40cf334cdc8b098b74312e21c7741c6eefbeb0e">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_f32fd40b2081b1301a6dbea1a476933fc1c86793.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.android/build-cache/b98618d5b8260c34be8bbac27104a9267ecbfbe1/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="25e8af11fff99ad02250f52f2436e25f60cc1bbe">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_8b003c5970d5b09961e514a2c5e10dd29e3e79da.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-sdk15/0.9.1/cd75e456277ed865a5ab936e011e8df6cc935c0d/anko-sdk15-0.9.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="cd75e456277ed865a5ab936e011e8df6cc935c0d">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-sdk15-0.9.1_c8e0c7cbf0388b27cf0195458c333308b4c39da7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Applications/Android Studio 3.0 Preview.app/Contents/gradle/m2repository/org/jetbrains/kotlin/kotlin-stdlib-jre7/1.1.2-4/kotlin-stdlib-jre7-1.1.2-4.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="6941e5b9d50a5690862458c7a5a83af2b1cd1d1f">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/kotlin-stdlib-jre7-1.1.2-4_5e94a543651629143cb75acf450b64f095dfc4b0.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.android/build-cache/26ec3a6d1cde6c0168b01bb82ce8888e151d0770/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="94afda1ba995209d097bf14edf601330e0597f1d">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_284aab9aa2b444d6f15629d137c5e21aab8cffc3.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-common/0.9.1/94848205587db2dcb3ad37420531a106b2f52385/anko-common-0.9.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="94848205587db2dcb3ad37420531a106b2f52385">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-common-0.9.1_af05d6dd76d6f34dff16098f1f53b08b79309699.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/org.jetbrains.anko/anko-appcompat-v7/0.9.1/a77ea5398546737ffc597e5c1c0b21c63beaf60/anko-appcompat-v7-0.9.1.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="0a77ea5398546737ffc597e5c1c0b21c63beaf60">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/anko-appcompat-v7-0.9.1_a9afdea5b525cefe1ee55fced1b6789fdf433fa7.jar" />
-    </item>
-    <item
-        is-multidex="false"
-        jar="/Users/chenwei/.android/build-cache/77dbacff9cb67704b5dc503359bd9b7b9f7e84bd/output/jars/classes.jar"
-        jumboMode="false"
-        optimize="true"
-        revision="25.0.3"
-        sha1="38bc45b46f24bbd8573bf1137d8808dc43515e8c">
-        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_eb510372caec5578c4965cc3f21f48cd268b3990.jar" />
-    </item>
-    <item
-        is-multidex="false"
         jar="/Users/chenwei/.android/build-cache/cb4c8ef23a9b5c18766a31adafc2653569c936ef/output/jars/classes.jar"
         jumboMode="false"
         optimize="true"
@@ -216,6 +216,15 @@
         revision="25.0.3"
         sha1="41a4edf3c43fdbce6eba27da50b17ff9933987f1">
         <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/classes_9dfa2a2340a49ab5b2ecd0837bfb5105df79545d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/chenwei/.gradle/caches/modules-2/files-2.1/com.github.frankiesardo/auto-parcel/0.3/b68911fc1bd0419e5a19c2d3cba9d772f8352d67/auto-parcel-0.3.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="25.0.3"
+        sha1="b68911fc1bd0419e5a19c2d3cba9d772f8352d67">
+        <dex dex="/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/pre-dexed/debug/auto-parcel-0.3_7761b47cde929ca31ab61fe9187a96bf26787ade.jar" />
     </item>
     <item
         is-multidex="false"
