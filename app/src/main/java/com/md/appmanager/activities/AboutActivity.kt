@@ -10,7 +10,9 @@ import android.widget.TextView
 import com.md.appmanager.AppManagerApplication
 import com.md.appmanager.R
 import com.md.appmanager.utils.AppPreferences
+import com.md.appmanager.utils.UtilsTools
 import com.md.appmanager.utils.UtilsUI
+import org.jetbrains.anko.find
 
 class AboutActivity : AppCompatActivity() {
     // Load Settings
@@ -47,11 +49,14 @@ class AboutActivity : AppCompatActivity() {
     private fun setScreenElements() {
         val appNameVersion = findViewById(R.id.app_name) as TextView?
         appNameVersion!!.text = resources.getString(R.string.app_name)
+        var reviewText = findViewById(R.id.text_review) as TextView;
+        reviewText.setOnClickListener({
+            UtilsTools.Tools.launchAppDetail(this, applicationInfo.packageName)
+        })
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         overridePendingTransition(R.anim.fade_forward, R.anim.slide_out_right)
     }
-
 }

@@ -22,6 +22,7 @@ import android.widget.Toast
 import android.content.pm.ApplicationInfo
 import android.support.annotation.RequiresApi
 import android.util.Log
+import android.widget.ProgressBar
 
 import com.md.appmanager.AppInfo
 import com.md.appmanager.AppManagerApplication
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private var activity: Activity? = null
     private var context: Context? = null
     private var recyclerView: RecyclerView? = null
-    private var progressWheel: ProgressWheel? = null
+    private var progress: ProgressBar? = null
     private var drawer: Drawer? = null
     private var searchItem: MenuItem? = null
     private var searchView: SearchView? = null
@@ -84,7 +85,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         recyclerView = findViewById(R.id.appList) as RecyclerView?
         fastScroller = findViewById(R.id.fast_scroller) as VerticalRecyclerViewFastScroller?
-        progressWheel = findViewById(R.id.progress) as ProgressWheel?
+        progress = findViewById(R.id.progress) as ProgressBar?
         noResults = findViewById(R.id.noResults) as LinearLayout?
 
         recyclerView!!.setHasFixedSize(true)
@@ -95,8 +96,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         drawer = UtilsUI.setNavigationDrawer((context as Activity?)!!, context as Activity, toolbar!!,
                 appAdapter, appSystemAdapter, appFavoriteAdapter, appHiddenAdapter, recyclerView!!)
 
-        progressWheel!!.barColor = appPreferences!!.primaryColorPref
-        progressWheel!!.visibility = View.VISIBLE
+        progress!!.visibility = View.VISIBLE
         getInstalledApps()
     }
 
@@ -120,7 +120,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     private fun getInstalledApps() {
         Thread(Runnable {
             kotlin.run {
-                var totalApps: Int = 0
                 appList = ArrayList<AppInfo>()
                 appSystemList = ArrayList<AppInfo>()
                 appHiddenList = ArrayList<AppInfo>()
@@ -128,7 +127,6 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                 val packageManager = packageManager
                 val packages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
                 val hiddenApps = appPreferences!!.hiddenApps
-                totalApps = packages.size + hiddenApps.size
                 // Get Sort Mode
                 when (appPreferences!!.sortMode) {
                     "2" ->
@@ -198,7 +196,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
                     fastScroller!!.visibility = View.VISIBLE
                     recyclerView!!.adapter = appAdapter
-                    progressWheel!!.visibility = View.GONE
+                    progress!!.visibility = View.GONE
                     searchItem!!.isVisible = true
 
                     fastScroller!!.setRecyclerView(recyclerView)

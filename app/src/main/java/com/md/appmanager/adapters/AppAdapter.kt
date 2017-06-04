@@ -34,12 +34,8 @@ import java.util.ArrayList
 class AppAdapter(// AppAdapter variables
         private var appList: MutableList<AppInfo>?, private val context: Context) : RecyclerView.Adapter<AppAdapter.AppViewHolder>(), Filterable {
     // Load Settings
-    private val appPreferences: AppPreferences
+    private val appPreferences: AppPreferences = AppManagerApplication.appPreferences!!
     private var appListSearch: List<AppInfo>? = null
-
-    init {
-        this.appPreferences = AppManagerApplication.appPreferences!!
-    }
 
     override fun getItemCount(): Int {
         return appList!!.size
@@ -55,9 +51,7 @@ class AppAdapter(// AppAdapter variables
         appViewHolder.vName.text = appInfo.name
         appViewHolder.vApk.text = appInfo.apk
         appViewHolder.vIcon.setImageDrawable(appInfo.icon)
-
         setButtonEvents(appViewHolder, appInfo)
-
     }
 
     private fun setButtonEvents(appViewHolder: AppViewHolder, appInfo: AppInfo) {
@@ -105,7 +99,6 @@ class AppAdapter(// AppAdapter variables
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.fade_back)
             }
         }
-
     }
 
     override fun getFilter(): Filter {
