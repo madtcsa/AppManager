@@ -1,0 +1,6 @@
+COMMAND=PREDEX_LIBRARY_TO_DEX_ARCHIVE
+FILE_PATH=/Users/chenwei/a23qws_github/MLManager/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar
+FILE_HASH=8957e733d4231eeae820e6c773faf4ff9c26cd66
+DX_VERSION=1.13
+JUMBO_MODE=true
+OPTIMIZE=true

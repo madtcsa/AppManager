@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical">
+    <PreferenceCategory android:title="@string/action_settings">
+        <Preference
+            android:key="prefDeleteAll"
+            android:summary="@string/settings_delete_all_description"
+            android:title="@string/settings_delete_all" />
+        <Preference
+            android:key="prefCustomPath"
+            android:title="@string/settings_custom_path" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/filenameEntries"
+            android:entryValues="@array/filenameValues"
+            android:key="prefCustomFilename"
+            android:title="@string/settings_custom_filename" />
+        <ListPreference
+            android:defaultValue="1"
+            android:entries="@array/sortEntries"
+            android:entryValues="@array/sortValues"
+            android:key="prefSortMode"
+            android:title="@string/settings_sort_mode" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/action_about">
+        <Preference
+            android:key="prefLicense"
+            android:title="@string/settings_license" />
+        <Preference
+            android:key="prefVersion"
+            android:summary="@string/settings_about"
+            android:title="@string/app_name" />
+    </PreferenceCategory>
+</PreferenceScreen>
