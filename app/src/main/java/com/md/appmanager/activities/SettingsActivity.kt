@@ -1,7 +1,6 @@
 package com.md.appmanager.activities
 
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.os.Build
@@ -15,18 +14,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
-
 import com.md.appmanager.AppManagerApplication
 import com.md.appmanager.R
 import com.md.appmanager.utils.AppPreferences
 import com.md.appmanager.utils.UtilsApp
 import com.md.appmanager.utils.UtilsUI
-
 import net.rdrei.android.dirchooser.DirectoryChooserConfig
 import net.rdrei.android.dirchooser.DirectoryChooserFragment
-
-import yuku.ambilwarna.widget.AmbilWarnaPreference
-import java.util.concurrent.TimeUnit
 
 class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPreferenceChangeListener, DirectoryChooserFragment.OnFragmentInteractionListener {
     // Load Settings
@@ -34,8 +28,6 @@ class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPrefere
     private var toolbar: Toolbar? = null
     private var context: Context? = null
 
-    private var prefVersion: Preference? = null
-    private var prefLicense: Preference? = null
     private var prefDeleteAll: Preference? = null
     private var prefNavigationBlack: Preference? = null
     private var prefCustomPath: Preference? = null
@@ -52,8 +44,6 @@ class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPrefere
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         prefs.registerOnSharedPreferenceChangeListener(this)
 
-        prefVersion = findPreference("prefVersion")
-        prefLicense = findPreference("prefLicense")
         prefDeleteAll = findPreference("prefDeleteAll")
         prefCustomFilename = findPreference("prefCustomFilename") as ListPreference
         prefSortMode = findPreference("prefSortMode") as ListPreference
@@ -64,18 +54,6 @@ class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPrefere
         val versionName = UtilsApp.getAppVersionName(context as SettingsActivity)
         val versionCode = UtilsApp.getAppVersionCode(context as SettingsActivity)
 
-        prefVersion!!.title = resources.getString(R.string.app_name) + " v" + versionName + " (" + versionCode + ")"
-        prefVersion!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            startActivity(Intent(context, AboutActivity::class.java))
-            overridePendingTransition(R.anim.slide_in_right, R.anim.fade_back)
-            false
-        }
-
-        prefLicense!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-            startActivity(Intent(context, LicenseActivity::class.java))
-            overridePendingTransition(R.anim.slide_in_right, R.anim.fade_back)
-            false
-        }
 
         // prefCustomFilename
         setCustomFilenameSummary()
@@ -103,7 +81,7 @@ class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPrefere
         // prefCustomPath
         prefCustomPath!!.onPreferenceClickListener = Preference.OnPreferenceClickListener {
             val chooserConfig = DirectoryChooserConfig.builder()
-                    .newDirectoryName("ML Manager APKs")
+                    .newDirectoryName("App Manager APKs")
                     .allowReadOnlyDirectory(false)
                     .allowNewDirectoryNameModification(true)
                     .initialDirectory(appPreferences!!.customPath)
@@ -122,7 +100,7 @@ class SettingsActivity : PreferenceActivity(), SharedPreferences.OnSharedPrefere
         toolbar = contentView.findViewById(R.id.toolbar) as Toolbar
         toolbar!!.setTitleTextColor(resources.getColor(R.color.white))
         toolbar!!.setNavigationOnClickListener { onBackPressed() }
-        toolbar!!.navigationIcon = UtilsUI.tintDrawable(toolbar!!.navigationIcon!!, ColorStateList.valueOf(getColor(R.color.white)))
+        toolbar!!.navigationIcon = UtilsUI.tintDrawable(toolbar!!.navigationIcon!!, ColorStateList.valueOf(resources.getColor(R.color.white)))
 
         val contentWrapper = contentView.findViewById(R.id.content_wrapper) as ViewGroup
         LayoutInflater.from(this).inflate(layoutResID, contentWrapper, true)

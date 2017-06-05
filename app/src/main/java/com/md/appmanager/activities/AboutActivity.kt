@@ -46,7 +46,7 @@ class AboutActivity : AppCompatActivity() {
         }
 
         var appVersionText = findViewById(R.id.text_version) as TextView
-        appVersionText.setText(packageManager.getPackageInfo(packageName,0).versionCode)
+        appVersionText.text = packageManager.getPackageInfo(packageName,0).versionCode.toString()
     }
 
     private fun setScreenElements() {

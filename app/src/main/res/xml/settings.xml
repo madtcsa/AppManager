@@ -22,13 +22,5 @@
             android:key="prefSortMode"
             android:title="@string/settings_sort_mode" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/action_about">
-        <Preference
-            android:key="prefLicense"
-            android:title="@string/settings_license" />
-        <Preference
-            android:key="prefVersion"
-            android:summary="@string/settings_about"
-            android:title="@string/app_name" />
-    </PreferenceCategory>
+
 </PreferenceScreen>
