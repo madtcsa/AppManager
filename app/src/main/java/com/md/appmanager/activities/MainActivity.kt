@@ -28,6 +28,7 @@ import com.md.appmanager.AppInfo
 import com.md.appmanager.AppManagerApplication
 import com.md.appmanager.R
 import com.md.appmanager.adapters.AppAdapter
+import com.md.appmanager.threadpool.AppManagerThreadPool
 import com.md.appmanager.utils.AppPreferences
 import com.md.appmanager.utils.UtilsApp
 import com.md.appmanager.utils.UtilsDialog
@@ -46,62 +47,53 @@ import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScrol
 class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private val TAG = MainActivity::class.java.simpleName
-    // Load Settings
     private var appPreferences: AppPreferences? = null
-
-    // General variables
     private var appList: MutableList<AppInfo>? = null
     private var appSystemList: MutableList<AppInfo>? = null
     private var appHiddenList: MutableList<AppInfo>? = null
-
     private var appAdapter: AppAdapter? = null
     private var appSystemAdapter: AppAdapter? = null
     private var appFavoriteAdapter: AppAdapter? = null
     private var appHiddenAdapter: AppAdapter? = null
-
-    // Configuration variables
     private var doubleBackToExitPressedOnce: Boolean? = false
-    private var toolbar: Toolbar? = null
-    private var activity: Activity? = null
-    private var context: Context? = null
-    private var recyclerView: RecyclerView? = null
-    private var progress: ProgressBar? = null
-    private var drawer: Drawer? = null
-    private var searchItem: MenuItem? = null
-    private var searchView: SearchView? = null
+    private lateinit var toolbar: Toolbar
+    private lateinit var activity: Activity
+    private lateinit var context: Context
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progress: ProgressBar
+    private lateinit var drawer: Drawer
+    private lateinit var searchItem: MenuItem
+    private lateinit var searchView: SearchView
     private var mHandler = Handler()
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         this.appPreferences = AppManagerApplication.appPreferences
         this.activity = this
         this.context = this
-
         setInitialConfiguration()
-        checkAndAddPermissions(activity as MainActivity)
         setAppDir()
-
-        recyclerView = findViewById(R.id.appList) as RecyclerView?
-        fastScroller = findViewById(R.id.fast_scroller) as VerticalRecyclerViewFastScroller?
-        progress = findViewById(R.id.progress) as ProgressBar?
-        noResults = findViewById(R.id.noResults) as LinearLayout?
-
-        recyclerView!!.setHasFixedSize(true)
-        val linearLayoutManager = LinearLayoutManager(this)
-        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
-        recyclerView!!.layoutManager = linearLayoutManager
-
-        drawer = UtilsUI.setNavigationDrawer((context as Activity?)!!, context as Activity, toolbar!!,
-                appAdapter, appSystemAdapter, appFavoriteAdapter, appHiddenAdapter, recyclerView!!)
-
-        progress!!.visibility = View.VISIBLE
+        initViews()
         getInstalledApps()
     }
 
+    private fun initViews() {
+        recyclerView = findViewById(R.id.appList) as RecyclerView
+        fastScroller = findViewById(R.id.fast_scroller) as VerticalRecyclerViewFastScroller
+        progress = findViewById(R.id.progress) as ProgressBar
+        noResults = findViewById(R.id.noResults) as LinearLayout
+        recyclerView.setHasFixedSize(true)
+        val linearLayoutManager = LinearLayoutManager(this@MainActivity)
+        linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
+        recyclerView.layoutManager = linearLayoutManager
+        drawer = UtilsUI.setNavigationDrawer(activity, context as Activity, toolbar,
+                appAdapter, appSystemAdapter, appFavoriteAdapter, appHiddenAdapter, recyclerView)
+        progress.visibility = View.VISIBLE
+    }
+
     private fun setInitialConfiguration() {
-        toolbar = findViewById(R.id.toolbar) as Toolbar?
+        toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         if (supportActionBar != null) {
             supportActionBar!!.setTitle(R.string.app_name)
@@ -110,7 +102,7 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = UtilsUI.darker(appPreferences!!.primaryColorPref, 0.8)
-            toolbar!!.setBackgroundColor(appPreferences!!.primaryColorPref)
+            toolbar.setBackgroundColor(appPreferences!!.primaryColorPref)
             if (appPreferences!!.navigationBlackPref!!) {
                 window.navigationBarColor = appPreferences!!.primaryColorPref
             }
@@ -118,95 +110,101 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getInstalledApps() {
-        Thread(Runnable {
-            kotlin.run {
-                appList = ArrayList<AppInfo>()
-                appSystemList = ArrayList<AppInfo>()
-                appHiddenList = ArrayList<AppInfo>()
+        AppManagerThreadPool.instance.startWork(
+                Runnable {
+                    kotlin.run {
+                        appList = ArrayList()
+                        appSystemList = ArrayList()
+                        appHiddenList = ArrayList()
 
-                val packageManager = packageManager
-                val packages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
-                val hiddenApps = appPreferences!!.hiddenApps
-                // Get Sort Mode
-                when (appPreferences!!.sortMode) {
-                    "2" ->
-                        // Comparator by Size
-                        Collections.sort(packages, { p1, p2 ->
-                            val size1 = File(p1.applicationInfo.sourceDir).length()
-                            val size2 = File(p2.applicationInfo.sourceDir).length()
-                            size2.compareTo(size1)
-                        })
-                    "3" ->
-                        // Comparator by Installation Date (default)
-                        Collections.sort(packages, { p1, p2 -> java.lang.Long.toString(p2.firstInstallTime).compareTo(java.lang.Long.toString(p1.firstInstallTime)) })
-                    "4" ->
-                        // Comparator by Last Update
-                        Collections.sort(packages, { p1, p2 -> java.lang.Long.toString(p2.lastUpdateTime).compareTo(java.lang.Long.toString(p1.lastUpdateTime)) })
-                    else ->
-                        // Comparator by Name (default)
-                        Collections.sort(packages, { p1, p2 ->
-                            packageManager.getApplicationLabel(p1.applicationInfo).toString().toLowerCase().
-                                    compareTo(packageManager.getApplicationLabel(p2.applicationInfo).toString().toLowerCase())
-                        })
-                }
-
-                // Installed & System Apps
-                packages
-                        .filterNot { packageManager.getApplicationLabel(it.applicationInfo) == "" || it.packageName == "" }
-                        .forEach {
-                            if (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
-                                try {
-                                    // Non System Apps
-                                    val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
-                                            it.packageName, it.versionName, it.applicationInfo.sourceDir,
-                                            it.applicationInfo.dataDir, packageManager.getApplicationIcon(it.applicationInfo), false)
-                                    appList!!.add(tempApp)
-                                } catch (e: OutOfMemoryError) {
-                                    val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
-                                            it.packageName, it.versionName, it.applicationInfo.sourceDir,
-                                            it.applicationInfo.dataDir, resources.getDrawable(R.drawable.ic_android), false)
-                                    appList!!.add(tempApp)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-
-                            } else {
-                                try {
-                                    // System Apps
-                                    val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
-                                            it.packageName, it.versionName, it.applicationInfo.sourceDir, it.applicationInfo.dataDir,
-                                            packageManager.getApplicationIcon(it.applicationInfo), true)
-                                    appSystemList!!.add(tempApp)
-                                } catch (e: OutOfMemoryError) {
-                                    val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(), it.packageName,
-                                            it.versionName, it.applicationInfo.sourceDir, it.applicationInfo.dataDir, resources.getDrawable(R.drawable.ic_android), false)
-                                    appSystemList!!.add(tempApp)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-
-                            }
+                        val packageManager = packageManager
+                        val packages = packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
+                        val hiddenApps = appPreferences!!.hiddenApps
+                        // Get Sort Mode
+                        when (appPreferences!!.sortMode) {
+                            "2" ->
+                                // Comparator by Size
+                                Collections.sort(packages, { p1, p2 ->
+                                    val size1 = File(p1.applicationInfo.sourceDir).length()
+                                    val size2 = File(p2.applicationInfo.sourceDir).length()
+                                    size2.compareTo(size1)
+                                })
+                            "3" ->
+                                // Comparator by Installation Date (default)
+                                Collections.sort(packages, { p1, p2 -> java.lang.Long.toString(p2.firstInstallTime).compareTo(java.lang.Long.toString(p1.firstInstallTime)) })
+                            "4" ->
+                                // Comparator by Last Update
+                                Collections.sort(packages, { p1, p2 -> java.lang.Long.toString(p2.lastUpdateTime).compareTo(java.lang.Long.toString(p1.lastUpdateTime)) })
+                            else ->
+                                // Comparator by Name (default)
+                                Collections.sort(packages, { p1, p2 ->
+                                    packageManager.getApplicationLabel(p1.applicationInfo).toString().toLowerCase().
+                                            compareTo(packageManager.getApplicationLabel(p2.applicationInfo).toString().toLowerCase())
+                                })
                         }
-                Log.d(TAG, "appList size:: " + (appList as ArrayList<AppInfo>).size)
-                mHandler.post({
-                    appAdapter = AppAdapter(appList, context!!)
-                    appSystemAdapter = AppAdapter(appSystemList, context!!)
-                    appFavoriteAdapter = AppAdapter(getFavoriteList(appList!!, appSystemList!!), context!!)
-                    appHiddenAdapter = AppAdapter(appHiddenList, context!!)
 
-                    fastScroller!!.visibility = View.VISIBLE
-                    recyclerView!!.adapter = appAdapter
-                    progress!!.visibility = View.GONE
-                    searchItem!!.isVisible = true
+                        // Installed & System Apps
+                        packages
+                                .filterNot { packageManager.getApplicationLabel(it.applicationInfo) == "" || it.packageName == "" }
+                                .forEach {
+                                    if (it.applicationInfo.flags and ApplicationInfo.FLAG_SYSTEM == 0) {
+                                        try {
+                                            // Non System Apps
+                                            val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
+                                                    it.packageName, it.versionName, it.applicationInfo.sourceDir,
+                                                    it.applicationInfo.dataDir, packageManager.getApplicationIcon(it.applicationInfo), false)
+                                            appList!!.add(tempApp)
+                                        } catch (e: OutOfMemoryError) {
+                                            val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
+                                                    it.packageName, it.versionName, it.applicationInfo.sourceDir,
+                                                    it.applicationInfo.dataDir, resources.getDrawable(R.drawable.ic_android), false)
+                                            appList!!.add(tempApp)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
 
-                    fastScroller!!.setRecyclerView(recyclerView)
-                    recyclerView!!.setOnScrollListener(fastScroller!!.onScrollListener)
-                    drawer!!.closeDrawer()
-                    drawer = UtilsUI.setNavigationDrawer((context as Activity?)!!, context as Activity, toolbar!!,
-                            appAdapter, appSystemAdapter, appFavoriteAdapter, appHiddenAdapter, recyclerView!!)
-                })
-            }
-        }).start()
+                                    } else {
+                                        try {
+                                            // System Apps
+                                            val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(),
+                                                    it.packageName, it.versionName, it.applicationInfo.sourceDir, it.applicationInfo.dataDir,
+                                                    packageManager.getApplicationIcon(it.applicationInfo), true)
+                                            appSystemList!!.add(tempApp)
+                                        } catch (e: OutOfMemoryError) {
+                                            val tempApp = AppInfo(packageManager.getApplicationLabel(it.applicationInfo).toString(), it.packageName,
+                                                    it.versionName, it.applicationInfo.sourceDir, it.applicationInfo.dataDir, resources.getDrawable(R.drawable.ic_android), false)
+                                            appSystemList!!.add(tempApp)
+                                        } catch (e: Exception) {
+                                            e.printStackTrace()
+                                        }
+
+                                    }
+                                }
+                        Log.d(TAG, "appList size:: " + (appList as ArrayList<AppInfo>).size)
+
+                    }
+                }
+        )
+    }
+
+    private fun showInstallApp() {
+        mHandler.post({
+            appAdapter = AppAdapter(appList, context)
+            appSystemAdapter = AppAdapter(appSystemList, context)
+            appFavoriteAdapter = AppAdapter(getFavoriteList(appList!!, appSystemList!!), context)
+            appHiddenAdapter = AppAdapter(appHiddenList, context)
+
+            fastScroller!!.visibility = View.VISIBLE
+            recyclerView.adapter = appAdapter
+            progress.visibility = View.GONE
+            searchItem.isVisible = true
+
+            fastScroller!!.setRecyclerView(recyclerView)
+            recyclerView.setOnScrollListener(fastScroller!!.onScrollListener)
+            drawer.closeDrawer()
+            drawer = UtilsUI.setNavigationDrawer((context as Activity?)!!, context as Activity, toolbar,
+                    appAdapter, appSystemAdapter, appFavoriteAdapter, appHiddenAdapter, recyclerView)
+        })
     }
 
     private fun setPullToRefreshView(pullToRefreshView: PullToRefreshView) {
@@ -214,16 +212,11 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             appAdapter!!.clear()
             appSystemAdapter!!.clear()
             appFavoriteAdapter!!.clear()
-            recyclerView!!.adapter = null
+            recyclerView.adapter = null
             getInstalledApps()
 
             pullToRefreshView.postDelayed({ pullToRefreshView.setRefreshing(false) }, 2000)
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun checkAndAddPermissions(activity: Activity) {
-        UtilsApp.checkPermissions(activity)
     }
 
     private fun setAppDir() {
@@ -234,27 +227,18 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun getFavoriteList(appList: List<AppInfo>, appSystemList: List<AppInfo>): MutableList<AppInfo> {
-        val res = ArrayList<AppInfo>()
-
-        for (app in appList) {
-            if (UtilsApp.isAppFavorite(app.apk!!, appPreferences!!.favoriteApps)!!) {
-                res.add(app)
-            }
-        }
-        for (app in appSystemList) {
-            if (UtilsApp.isAppFavorite(app.apk!!, appPreferences!!.favoriteApps)!!) {
-                res.add(app)
-            }
-        }
-
+        val res = appList
+                .filter { UtilsApp.isAppFavorite(it.apk!!, appPreferences!!.favoriteApps)!! }
+                .toMutableList()
+        appSystemList.filterTo(res) { UtilsApp.isAppFavorite(it.apk!!, appPreferences!!.favoriteApps)!! }
         return res
     }
 
     override fun onQueryTextChange(search: String): Boolean {
         if (search.isEmpty()) {
-            (recyclerView!!.adapter as AppAdapter).filter.filter("")
+            (recyclerView.adapter as AppAdapter).filter.filter("")
         } else {
-            (recyclerView!!.adapter as AppAdapter).filter.filter(search.toLowerCase())
+            (recyclerView.adapter as AppAdapter).filter.filter(search.toLowerCase())
         }
 
         return false
@@ -270,10 +254,10 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         searchItem = menu.findItem(R.id.action_search)
         searchView = MenuItemCompat.getActionView(searchItem) as SearchView
-        searchView!!.setOnQueryTextListener(this)
+        searchView.setOnQueryTextListener(this)
 
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        searchView!!.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()))
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()))
 
         return true
     }
@@ -282,17 +266,17 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         when (requestCode) {
             MY_PERMISSIONS_REQUEST_WRITE_READ -> {
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    UtilsDialog.showTitleContent(context!!, resources.getString(R.string.dialog_permissions), resources.getString(R.string.dialog_permissions_description))
+                    UtilsDialog.showTitleContent(context, resources.getString(R.string.dialog_permissions), resources.getString(R.string.dialog_permissions_description))
                 }
             }
         }
     }
 
     override fun onBackPressed() {
-        if (drawer!!.isDrawerOpen) {
-            drawer!!.closeDrawer()
-        } else if (searchItem!!.isVisible && !searchView!!.isIconified) {
-            searchView!!.onActionViewCollapsed()
+        if (drawer.isDrawerOpen) {
+            drawer.closeDrawer()
+        } else if (searchItem.isVisible && !searchView.isIconified) {
+            searchView.onActionViewCollapsed()
         } else {
             if (doubleBackToExitPressedOnce!!) {
                 super.onBackPressed()

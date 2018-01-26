@@ -73,17 +73,15 @@ object UtilsApp {
      */
     fun getAPKFilename(appInfo: AppInfo): String {
         val appPreferences = AppManagerApplication.appPreferences
-        var res: String = ""
-
+        var res = ""
         if (appPreferences != null) {
-            when (appPreferences.customFilename) {
-                "1" -> res = appInfo.apk + "_" + appInfo.version
-                "2" -> res = appInfo.name + "_" + appInfo.version
-                "4" -> res = appInfo.name!!
-                else -> res = appInfo.apk!!
+            res = when (appPreferences.customFilename) {
+                "1" -> appInfo.apk + "_" + appInfo.version
+                "2" -> appInfo.name + "_" + appInfo.version
+                "4" -> appInfo.name!!
+                else -> appInfo.apk!!
             }
         }
-
         return res
     }
 
@@ -102,14 +100,14 @@ object UtilsApp {
      * @return true if all files have been deleted, false otherwise
      */
     fun deleteAppFiles(): Boolean? {
-        var res: Boolean? = false
+        var res = false
         val f = appFolder
         if (f.exists() && f.isDirectory) {
             val files = f.listFiles()
             for (file in files) {
                 file.delete()
             }
-            if (f.listFiles().size == 0) {
+            if (f.listFiles().isEmpty()) {
                 res = true
             }
         }
@@ -128,7 +126,6 @@ object UtilsApp {
         } catch (e: ActivityNotFoundException) {
             context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + id)))
         }
-
     }
 
     /**
@@ -303,22 +300,20 @@ object UtilsApp {
      * @return Drawable with the app icon
      */
     fun getIconFromCache(context: Context, appInfo: AppInfo): Drawable {
-        var res: Drawable
-
-        try {
+        val res: Drawable
+        res = try {
             val fileUri = File(context.cacheDir, appInfo.apk)
             val bitmap = BitmapFactory.decodeFile(fileUri.path)
-            res = BitmapDrawable(context.resources, bitmap)
+            BitmapDrawable(context.resources, bitmap)
         } catch (e: Exception) {
             e.printStackTrace()
-            res = context.resources.getDrawable(R.drawable.ic_android)
+            context.resources.getDrawable(R.drawable.ic_android)
         }
-
         return res
     }
 
     fun extractMLManagerPro(context: Context, appInfo: AppInfo): Boolean? {
-        var res: Boolean? = false
+        var res: Boolean = false
         val finalFile = File(appFolder.path, getAPKFilename(appInfo) + ".png")
 
         try {
@@ -333,20 +328,17 @@ object UtilsApp {
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
         return res
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    fun checkPermissions(activity: Activity): Boolean? {
-        var res: Boolean? = false
+    fun checkPermissions(activity: Activity): Boolean {
+        var res = false
         if (ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             activity.requestPermissions(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_WRITE_READ)
         } else {
             res = true
         }
-
         return res
     }
-
 }
